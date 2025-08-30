@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Summary</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+
+    <style>
+        .summary-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+        img {
+            max-width: 100%;
+            max-height: 700px;
+            object-fit: cover;
+            height: auto;
+        }
+        .plots {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <p>Welcome Admin</p>
+        <ul>
+            <a href="{{ url_for('admin.dashboard') }}"><li>Home</li></a>|
+            <a href="{{ url_for('admin.userreg') }}"><li>Users</li></a>|
+            <a href="#"><li>Summary</li></a>|
+            <a href="{{ url_for('admin.editprofile') }}"><li>Edit Profile</li></a>|
+            <a href="{{ url_for('logout.logout') }}"><li>Logout</li></a>
+        </ul>
+    </div>
+
+    <div class="herohead">
+        <div class="heading">
+            <h1>Summary</h1>
+        </div>
+    </div>
+
+    <div class="summary-container">
+        <div class="plots">
+            <div class="plot-card">
+                {% if plot_url1 %}
+                    <h3>Total Revenue Over Time</h3>
+                    <img src="data:image/png;base64,{{ plot_url1 }}">
+                {% else %}
+                    <p>No revenue data available yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="plot-card">
+                {% if plot_url2 %}
+                    <h3>Most Popular Parking Lots</h3>
+                    <img src="data:image/png;base64,{{ plot_url2 }}">
+                {% else %}
+                    <p>No parking lot data available yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="plot-card">
+                {% if plot_url3 %}
+                    <h3>Average Booking Duration Over Time</h3>
+                    <img src="data:image/png;base64,{{ plot_url3 }}">
+                {% else %}
+                    <p>No duration data available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

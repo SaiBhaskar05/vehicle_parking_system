@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="nav">
+        <p>Welcome {{ fullname }}</p>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for('user.summary') }}">Summary</a></li>
+            <li><a href="{{ url_for('user.editprofile') }}">Edit Profile</a></li>
+            <li><a href="{{ url_for('login.logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="recenthistory">
+        <h2>Recent Parking History</h2>
+        {% if recent_bookings %}
+            <ul>
+                {% for booking in recent_bookings %}
+                    <li>
+                        <b>Allotted Parking Spot: {{ booking.spot.id }}</b><br>
+                        <b>Prime location:</b> {{ booking.lot.primelocation }}<br>
+                        <b>Address: </b>{{ booking.lot.address }} <br>
+                        <b>Pincode: </b>{{ booking.lot.pincode }}<br>
+                        <b>Vehicle Number: {{ booking.vehicle_number }}</b><br>
+                        <b>Booking date and time:</b> {{ booking.starttime_ist.strftime('%d-%m-%Y %I:%M %p') }}<br>
+                        {% if not booking.is_released %}
+                            <p style="color: green;">Successfully Reserved, you can park <b>Spot: {{ booking.spot.id }}</b> at the parking Prime location.</p>
+                            </p>
+                            <a href="{{ url_for('booking.release_spot', booking_id=booking.id) }}" class="release">Release</a>
+                        {% else %}
+                            <span class="released">Successfully, Released</span>
+                        {% endif %}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No recent bookings yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="search">
+        <h2>Search for parking location</h2>
+        <form method="POST">
+            <div class="searchbar">
+                <p>Search here:</p>
+                <input 
+                    type="text" 
+                    name="search_term" 
+                    placeholder="Enter pincode or location" 
+                    required 
+                
+                >
+                <button type="submit" class="searchbtn">Search</button>
+            </div>
+        </form>
+
+        {% if input %}
+            <p class="searchresult">Search results for: {{ input }}</p>
+        {% endif %}
+
+        {% if not parking_lots %}
+            <p class="noresult">
+                {% if input %}
+                    No parking lots found for "{{ input }}".
+                {% else %}
+                    No parking lots available.
+                {% endif %}
+            </p>
+        {% endif %}
+
+        <div class="lotloc">
+            {% for lot in parking_lots %}
+                <div class="container">
+                    <p>Prime location: {{ lot.primelocation }}</p>
+                    <p>Address: {{ lot.address }}</p>
+                    <p>Pincode: {{ lot.pincode }}</p>
+                    <p>Maximum spots: {{ lot.max_spots }}</p>
+                    <p>Price (per hour): {{ lot.price }}</p>
+                    <p>Spots availability status:
+                        {% if lot_availability[lot.lot_id] == 'Available' %}
+                            <span style="color: green;"><b>Available</b></span>
+                        {% else %}
+                            <span style="color: red;"><b>Not Available</b></span>
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('booking.book_spot', lot_id=lot.lot_id) }}">Book Now</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    
+        alert("{{ message }}");
+      
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</body>
+</html>

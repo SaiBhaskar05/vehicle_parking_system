@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+        <div class="nav">
+        <p>Welcome Admin</p>
+        <ul>
+            <a href="{{ url_for('admin.dashboard') }}"><li> Home </li></a>|
+            <a href="#"><li> Users </li></a>|
+            <a href="{{ url_for('admin.summary') }}"><li> Summary </li></a>|
+            <a href="{{ url_for('admin.editprofile') }}"><li>Edit Profile </li></a>|
+            <a href="{{ url_for('logout.logout') }}"><li> Logout </li></a>
+            
+        </ul>
+    </div>
+    <div class="herohead">
+        <div class="heading">
+            <h1>Users Registered</h1>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>S. No</th>
+            <th>Email</th>
+            <th>Fullname</th>
+            <th>Address</th>
+            <th>age</th>
+            <th>Pincode</th>
+        </tr>
+        {% for i in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.fullname }}</td>
+                <td>{{ i.address }}</td>
+                <td>{{ i.age }}</td>
+                <td>{{ i.pincode }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

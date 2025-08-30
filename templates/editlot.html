@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ 'Edit' if lot else 'Add' }} Parking Lot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='addlot.css') }}">
+</head>
+<body>
+    <div id="addlot" class="log">
+        <form method="POST">
+            <h3>Edit Parking Lot</h3>
+            
+            <label>Primelocation Name</label>
+            <input class="forminput" name="primelocation" placeholder="Enter Primelocation" value="{{ lot.primelocation }}" required>
+
+            <label>Address</label>
+            <textarea class="forminput" name="address" placeholder="Enter Address" required>{{ lot.address if lot else '' }}</textarea>
+
+            <label>Pincode</label>
+            <input class="forminput" name="pincode" placeholder="Enter Pincode" value="{{ lot.pincode if lot else '' }}" required>
+
+            <label>Price(per hour)</label>
+            <input class="forminput" name="price" placeholder="Enter Price(per hour)" value="{{ lot.price if lot else '' }}" required>
+
+            <label>Maximum Spots</label>
+            <input class="forminput" name="max_spots" placeholder="Enter Maximum Spots" value="{{ lot.max_spots if lot else '' }}" required>
+
+            <button type="submit">Update</button>
+            <a href="{{ url_for('admin.dashboard') }}">Cancel</a>
+        </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    
+        alert("{{ message }}");
+      
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+    </div>
+</body>
+</html>

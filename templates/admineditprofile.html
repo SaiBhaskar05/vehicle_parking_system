@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <p>Welcome Admin</p>
+        <ul>
+            <a href="{{ url_for('admin.dashboard') }}"><li> Home </li></a>|
+            <a href="{{ url_for('admin.userreg') }}"><li> Users </li></a>|
+            <a href="{{ url_for('admin.summary') }}"><li> Summary </li></a>|
+            <a href="#"><li>Edit Profile </li></a>|
+            <a href="{{ url_for('logout.logout') }}"><li> Logout </li></a>
+            
+        </ul>
+    </div>
+    <div class="herohead">
+        <div class="heading">
+            <h1>Edit Profile</h1>
+        </div>
+    </div>
+
+    <div id="logincard">
+        <form method="POST">
+            <label>Username</label>
+            <input class="forminput" type="text" value="{{ users.username }}" name="username" placeholder="username" required>
+             <label>Full Name</label>
+            <input class="forminput" type="fullname" value="{{ users.fullname }}" name="fullname" placeholder="fullname" required>
+            <label>Email</label>
+            <input class="forminput" type="email" value="{{ users.email }}" name="email" placeholder="email" required>
+            <label>Address</label>
+            <textarea class="forminput" type="text" name="address" placeholder="Enter City and State" required>{{ users.address }}</textarea>
+            <label>Pincode</label>
+            <input class="forminput" type="text" value="{{ users.pincode }}" name="pincode" placeholder="pincode" required>
+            <label>Password</label>
+            <input class="forminput" type="password" value="{{ users.password }}" name="password" placeholder="password" required>
+            <button type="submit">Edit</button>
+            <a href="{{url_for('admin.dashboard')}}">Cancel</a>
+        </form>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <script>
+    
+        alert("{{ message }}");
+      
+    </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

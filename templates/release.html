@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Release Spot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='release.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <p>Release Parking Spot</p>
+        <a href="{{ url_for('user.dashboard') }}">Back to Dashboard</a>
+    </div>
+
+    <div class="release-details">
+        <h2>Confirm Release</h2>
+        <p><b>Parking Lot:</b> {{ booking.lot.primelocation }}</p>
+        <p><b>Spot ID:</b> {{ booking.spot.id }}</p>
+        <p><b>Vehicle Number:</b> {{ booking.vehicle_number }}</p>
+        <p><b>Start Time (IST):</b> {{ booking.starttime_ist.strftime('%d-%m-%Y %I:%M %p') }}</p>
+        <p><b>End Time (IST):</b> {{ current_time.astimezone(zoneinfo).strftime('%d-%m-%Y %I:%M %p') }}</p>
+        <p><b>Calculated Duration:</b> {{ duration_hours }} hour(s)</p>
+        <p><b>Price (₹):</b> {{ calculated_price }}</p>
+
+        <form method="post">
+            <input type="hidden" name="confirm" value="yes">
+            <button type="submit">Confirm Release & Pay</button>
+        </form>
+    </div>
+</body>
+</html>
